@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AnimatedIcon">
+        <attr name="first_state" format="reference"/>
+        <attr name="last_state" format="reference"/>
+    </declare-styleable>
+</resources>
