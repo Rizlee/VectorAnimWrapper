@@ -5,8 +5,6 @@
 # Usage
 #### Gradle
 ```xml
-maven{ url'https://dl.bintray.com/rizlee/vector-anim-wrapper' }
-
 implementation "com.rizlee.wrapper:vector-anim-wrapper:$last_version"
 ```
 
