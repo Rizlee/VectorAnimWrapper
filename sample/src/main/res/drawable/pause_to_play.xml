@@ -8,26 +8,27 @@
             android:viewportWidth="128"
             android:viewportHeight="128">
             <group
-                android:name="play_icon_group_parts"
+                android:name="parts"
                 android:pivotX="64"
                 android:pivotY="64"
+                android:rotation="90"
                 android:scaleX="1.5"
                 android:scaleY="1.5">
 
-                <group android:name="play_icon_group_top">
+                <group android:name="upperpart">
                     <path
-                        android:name="play_icon_top_path_name"
+                        android:name="upperpart"
                         android:fillColor="@android:color/white"
-                        android:pathData="M 44 32 L 44 64 L 100 64 L 100 64 Z"
+                        android:pathData="M 32 40 L 32 56  L 96 56 L 96 40 Z"
                         android:strokeLineCap="butt"
                         android:strokeLineJoin="miter"
                         android:strokeMiterLimit="10" />
                 </group>
-                <group android:name="play_icon_group_bottom">
+                <group android:name="bottompart">
                     <path
-                        android:name="play_icon_bottom_path_name"
+                        android:name="bottompart"
                         android:fillColor="@android:color/white"
-                        android:pathData="M 44 96 L 44 64 L 100 64 L 100 64 Z"
+                        android:pathData="M 32 88 L 32 72 L 96 72 L 96 88 Z"
                         android:strokeLineCap="butt"
                         android:strokeLineJoin="miter"
                         android:strokeMiterLimit="10" />
@@ -36,38 +37,38 @@
             </group>
         </vector>
     </aapt:attr>
-    <target android:name="rotate">
+    <target android:name="parts">
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:duration="300"
                 android:interpolator="@android:anim/accelerate_decelerate_interpolator"
                 android:propertyName="rotation"
-                android:valueFrom="0"
-                android:valueTo="90"
+                android:valueFrom="90"
+                android:valueTo="0"
                 android:valueType="floatType" />
         </aapt:attr>
     </target>
 
-    <target android:name="upper">
+    <target android:name="upperpart">
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:duration="300"
                 android:interpolator="@android:interpolator/accelerate_decelerate"
                 android:propertyName="pathData"
-                android:valueFrom="M 44 32 L 44 64 L 100 64 L 100 64 Z"
-                android:valueTo="M 32 40 L 32 56  L 96 56 L 96 40 Z"
+                android:valueFrom="M 32 40 L 32 56  L 96 56 L 96 40 Z"
+                android:valueTo="M 44 32 L 44 64 L 100 64 L 100 64 Z"
                 android:valueType="pathType" />
         </aapt:attr>
     </target>
 
-    <target android:name="bottom">
+    <target android:name="bottompart">
         <aapt:attr name="android:animation">
             <objectAnimator
                 android:duration="300"
                 android:interpolator="@android:interpolator/accelerate_decelerate"
                 android:propertyName="pathData"
-                android:valueFrom="M 44 96 L 44 64 L 100 64 L 100 64 Z"
-                android:valueTo="M 32 88 L 32 72 L 96 72 L 96 88 Z"
+                android:valueFrom="M 32 88 L 32 72 L 96 72 L 96 88 Z"
+                android:valueTo="M 44 96 L 44 64 L 100 64 L 100 64 Z"
                 android:valueType="pathType" />
         </aapt:attr>
     </target>
