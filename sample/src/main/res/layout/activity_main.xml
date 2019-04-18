@@ -7,7 +7,7 @@
     android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
-    <com.rizlee.animatedicon.AnimatedIcon
+    <com.rizlee.AnimatedIcon
         android:id="@+id/animatedIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"

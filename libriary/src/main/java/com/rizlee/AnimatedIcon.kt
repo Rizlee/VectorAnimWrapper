@@ -1,4 +1,4 @@
-package com.rizlee.animatedicon
+package com.rizlee
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.rizlee.animatedicon.R
 
 private const val DEFAULT_FIRST_STATE_ID = 0
 private const val DEFAULT_LAST_STATE_ID = 1
