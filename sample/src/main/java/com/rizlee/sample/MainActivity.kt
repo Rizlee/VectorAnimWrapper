@@ -18,8 +18,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         animatedIcon.init(PLAY, PAUSE, object : AnimatedIcon.OnAnimatedIconClickListener {
-            override fun onClickEvent(newState: Int) {
-                when (newState) {
+            override fun onClickEvent(newStateId: Int) {
+                when (newStateId) {
+                    PLAY -> Log.i(TAG, "Play state")
+                    PAUSE -> Log.i(TAG, "Pause state")
+                }
+            }
+
+            override fun onStateChanged(newStateId: Int) {
+                when (newStateId) {
                     PLAY -> Log.i(TAG, "Play state")
                     PAUSE -> Log.i(TAG, "Pause state")
                 }

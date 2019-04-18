@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/libriary" />
             <option value="$PROJECT_DIR$/sample" />
+            <option value="$PROJECT_DIR$/vector-anim-wrapper" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

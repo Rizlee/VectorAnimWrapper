@@ -4,14 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 
 def versionMajor = 1
 def versionMinor = 0
-def versionPatch = 0
+def versionPatch = 1
 def versionBuild = 0
 
 ext {
     bintrayRepo = 'vector-anim-wrapper'
     bintrayName = 'vector-anim-wrapper'
 
-    publishedGroupId = 'com.rizlee'
+    publishedGroupId = 'com.rizlee.wrapper'
     libraryName = 'VectorAnimWrapper'
     artifact = 'vector-anim-wrapper'
 

@@ -29,7 +29,7 @@ class AnimatedIcon @JvmOverloads constructor(
 
     private var listener: OnAnimatedIconClickListener? = null
 
-    private var isFirstAnimation = true
+    private var isReAnimNeed = true
 
     init {
         this.setOnClickListener { onClickEvent() }
@@ -57,21 +57,7 @@ class AnimatedIcon @JvmOverloads constructor(
     }
 
     private fun onClickEvent() {
-        val bufState = if (isFirstAnimation) {
-            isFirstAnimation = false
-            currentState
-        } else transitions[currentState]
-
-        bufState?.let {
-            when (it) {
-                is AnimatedVectorDrawable -> it.start()
-                is AnimatedVectorDrawableCompat -> it.start()
-                else -> throw Exception("IncompatibilityException: first or last stateDrawable not AnimatedVectorDrawable/AnimatedVectorDrawableCompat")
-            }
-            currentState = it
-            this.background = currentState
-        }
-
+        performAnim(if (isReAnimNeed) currentState else transitions[currentState])
         listener?.onClickEvent(if (currentState == firstStateIcon) firstStateId else lastStateId)
     }
 
@@ -80,12 +66,48 @@ class AnimatedIcon @JvmOverloads constructor(
         this.lastStateId = lastStateId
     }
 
+    private fun performAnim(newState: Drawable?) {
+        newState?.let {
+            when (it) {
+                is AnimatedVectorDrawable -> it.start()
+                is AnimatedVectorDrawableCompat -> it.start()
+                else -> throw Exception("IncompatibilityException: first or last stateDrawable not AnimatedVectorDrawable/AnimatedVectorDrawableCompat")
+            }
+            isReAnimNeed = false
+            newStateEvent(it)
+        }
+    }
+
+    private fun newStateEvent(newState: Drawable) {
+        currentState = newState
+        this.background = currentState
+        listener?.onStateChanged(if (currentState == firstStateIcon) firstStateId else lastStateId)
+    }
+
     fun init(firstStateId: Int, lastStateId: Int, listener: OnAnimatedIconClickListener) {
         setStateIds(firstStateId, lastStateId)
         this.listener = listener
     }
 
+    fun setCurrentStateWithAnim(nextStateId: Int) =
+            (if (nextStateId == firstStateId) firstStateIcon else lastStateIcon).apply {
+                if (this != currentState) {
+                    performAnim(this)
+                } else if (isReAnimNeed) performAnim(this)
+            }
+
+    //todo need to fix problem when setCurrentStateWithAnim -> setCurrentStateWithoutAnim (without onClick)
+    /*fun setCurrentStateWithoutAnim(nextStateId: Int) =
+            (if (nextStateId == firstStateId) firstStateIcon else lastStateIcon ).apply {
+                if (this != currentState) {
+                    newStateEvent(this)
+                    isReAnimNeed = true
+                }
+            }*/
+
     interface OnAnimatedIconClickListener {
-        fun onClickEvent(newState: Int)
+        fun onClickEvent(newStateId: Int)
+
+        fun onStateChanged(newStateId: Int)
     }
 }
