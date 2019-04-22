@@ -8,9 +8,6 @@ import android.view.View
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.rizlee.animatedicon.R
 
-private const val DEFAULT_FIRST_STATE_ID = 0
-private const val DEFAULT_LAST_STATE_ID = 1
-
 class AnimatedIcon @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -22,14 +19,11 @@ class AnimatedIcon @JvmOverloads constructor(
 
     private lateinit var currentState: Drawable
 
-    private var firstStateId = DEFAULT_FIRST_STATE_ID
-    private var lastStateId = DEFAULT_LAST_STATE_ID
-
     private lateinit var transitions: Map<Drawable, Drawable>
 
-    private var listener: OnAnimatedIconClickListener? = null
-
     private var isReAnimNeed = true
+
+    var listener: OnAnimatedIconClickListener? = null
 
     init {
         this.setOnClickListener { onClickEvent() }
@@ -58,12 +52,7 @@ class AnimatedIcon @JvmOverloads constructor(
 
     private fun onClickEvent() {
         performAnim(if (isReAnimNeed) currentState else transitions[currentState])
-        listener?.onClickEvent(if (currentState == firstStateIcon) firstStateId else lastStateId)
-    }
-
-    private fun setStateIds(firstStateId: Int, lastStateId: Int) {
-        this.firstStateId = firstStateId
-        this.lastStateId = lastStateId
+        listener?.onClickEvent(if (currentState == firstStateIcon) State.FIRST_STATE.stateId else State.LAST_STATE.stateId)
     }
 
     private fun performAnim(newState: Drawable?) {
@@ -81,16 +70,11 @@ class AnimatedIcon @JvmOverloads constructor(
     private fun newStateEvent(newState: Drawable) {
         currentState = newState
         this.background = currentState
-        listener?.onStateChanged(if (currentState == firstStateIcon) firstStateId else lastStateId)
-    }
-
-    fun init(firstStateId: Int, lastStateId: Int, listener: OnAnimatedIconClickListener) {
-        setStateIds(firstStateId, lastStateId)
-        this.listener = listener
+        listener?.onStateChanged(if (currentState == firstStateIcon) State.FIRST_STATE.stateId else State.LAST_STATE.stateId)
     }
 
     fun setCurrentStateWithAnim(nextStateId: Int) =
-            (if (nextStateId == firstStateId) firstStateIcon else lastStateIcon).apply {
+            (if (nextStateId == State.FIRST_STATE.stateId) firstStateIcon else lastStateIcon).apply {
                 if (this != currentState) {
                     performAnim(this)
                 } else if (isReAnimNeed) performAnim(this)
@@ -109,5 +93,10 @@ class AnimatedIcon @JvmOverloads constructor(
         fun onClickEvent(newStateId: Int)
 
         fun onStateChanged(newStateId: Int)
+    }
+
+    enum class State(val stateId: Int){
+        FIRST_STATE(0),
+        LAST_STATE(1)
     }
 }
