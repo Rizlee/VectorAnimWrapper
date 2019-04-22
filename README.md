@@ -21,7 +21,7 @@ implementation "com.rizlee.wrapper:vector-anim-wrapper:$last_version"
 #### Kotlin
 ```kotlin
 just implement AnimatedIcon.OnAnimatedIconClickListener
-and then animatedIcon.listener = this
+then animatedIcon.listener = this
         
 override fun onClickEvent(newStateId: Int) {
         when (newStateId) {
