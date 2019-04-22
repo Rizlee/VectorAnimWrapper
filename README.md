@@ -1,6 +1,6 @@
 [![Platform](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Download](https://api.bintray.com/packages/rizlee/vector-anim-wrapper/vector-anim-wrapper/images/download.svg?version=1.0.1)](https://bintray.com/rizlee/vector-anim-wrapper/vector-anim-wrapper/1.0.1/link)
+[![Download](https://api.bintray.com/packages/rizlee/vector-anim-wrapper/vector-anim-wrapper/images/download.svg?version=1.0.2)](https://bintray.com/rizlee/vector-anim-wrapper/vector-anim-wrapper/1.0.2/link)
 
 # Usage
 #### Gradle
