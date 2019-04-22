@@ -20,26 +20,22 @@ implementation "com.rizlee.wrapper:vector-anim-wrapper:$last_version"
 
 #### Kotlin
 ```kotlin
-private const val PLAY = 10
-private const val PAUSE = 11
-
-animatedIcon.init(PLAY, PAUSE, object : AnimatedIcon.OnAnimatedIconClickListener {
-            override fun onClickEvent(newStateId: Int) {
-                when (newStateId) {
-                    PLAY -> Log.i(TAG, "Play state")
-                    PAUSE -> Log.i(TAG, "Pause state")
-                }
-            }
-
-            override fun onStateChanged(newStateId: Int) {
-                when (newStateId) {
-                    PLAY -> Log.i(TAG, "Play state")
-                    PAUSE -> Log.i(TAG, "Pause state")
-                }
-            }
-        })
+just implement AnimatedIcon.OnAnimatedIconClickListener
+and then animatedIcon.listener = this
         
-animatedIcon.setCurrentStateWithAnim(PLAY)
+override fun onClickEvent(newStateId: Int) {
+        when (newStateId) {
+            AnimatedIcon.State.FIRST_STATE.stateId -> Log.i(TAG, "First state")
+            AnimatedIcon.State.LAST_STATE.stateId -> Log.i(TAG, "Last state")
+        }
+    }
+
+    override fun onStateChanged(newStateId: Int) {
+        when (newStateId) {
+            AnimatedIcon.State.FIRST_STATE.stateId -> Log.i(TAG, "First state")
+            AnimatedIcon.State.LAST_STATE.stateId -> Log.i(TAG, "Last state")
+        }
+    }
 ```
 
 #### Animated drawables you can make with the help of [this](https://shapeshifter.design/)
