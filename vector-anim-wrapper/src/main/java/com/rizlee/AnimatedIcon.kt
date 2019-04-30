@@ -80,6 +80,8 @@ class AnimatedIcon @JvmOverloads constructor(
                 } else if (isReAnimNeed) performAnim(this)
             }
 
+    fun getCurrentState() = if (currentState == firstStateIcon) State.FIRST_STATE else State.LAST_STATE
+
     //todo need to fix problem when setCurrentStateWithAnim -> setCurrentStateWithoutAnim (without onClick)
     /*fun setCurrentStateWithoutAnim(nextStateId: Int) =
             (if (nextStateId == firstStateId) firstStateIcon else lastStateIcon ).apply {
