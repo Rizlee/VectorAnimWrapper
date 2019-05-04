@@ -8,14 +8,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity(), AnimatedIcon.OnAnimatedIconClickListener {
+class MainActivity : AppCompatActivity(), AnimatedIcon.OnAnimatedClickIconListener, AnimatedIcon.OnAnimatedIconCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        animatedIcon.listener = this
-
+        animatedIcon.listenerClick = this
+        animatedIcon.animCallback = this
     }
 
     override fun onClickEvent(newState: AnimatedIcon.State) {
@@ -30,5 +30,13 @@ class MainActivity : AppCompatActivity(), AnimatedIcon.OnAnimatedIconClickListen
             AnimatedIcon.State.FIRST_STATE -> Log.i(TAG, "First state")
             AnimatedIcon.State.LAST_STATE -> Log.i(TAG, "Last state")
         }
+    }
+
+    override fun onAnimationStart() {
+        Log.i(TAG, "onAnimationStart")
+    }
+
+    override fun onAnimationEnd() {
+        Log.i(TAG, "onAnimationEnd")
     }
 }

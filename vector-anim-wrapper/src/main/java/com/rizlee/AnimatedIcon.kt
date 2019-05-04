@@ -1,10 +1,13 @@
 package com.rizlee
 
 import android.content.Context
+import android.graphics.drawable.Animatable2
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.rizlee.animatedicon.R
 
@@ -25,7 +28,14 @@ class AnimatedIcon @JvmOverloads constructor(
 
     private var isReAnimNeed = true
 
-    var listener: OnAnimatedIconClickListener? = null
+    var listenerClick: OnAnimatedClickIconListener? = null
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    var animCallback: OnAnimatedIconCallback? = null
+        set(value) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) throw Exception("Require api >= 23")
+            else field = value
+        }
 
     init {
         this.setOnClickListener { onClickEvent() }
@@ -54,13 +64,31 @@ class AnimatedIcon @JvmOverloads constructor(
 
     private fun onClickEvent() {
         performAnim(if (isReAnimNeed) currentStateDrawable else transitions[currentStateDrawable])
-        listener?.onClickEvent(if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE)
+        listenerClick?.onClickEvent(if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE)
     }
 
     private fun performAnim(newState: Drawable?) {
         newState?.let {
             when (it) {
-                is AnimatedVectorDrawable -> it.start()
+                is AnimatedVectorDrawable -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        animCallback?.let { callback ->
+                            it.registerAnimationCallback(object : Animatable2.AnimationCallback() {
+                                override fun onAnimationStart(drawable: Drawable?) {
+                                    super.onAnimationStart(drawable)
+                                    callback.onAnimationStart()
+                                }
+
+                                override fun onAnimationEnd(drawable: Drawable?) {
+                                    super.onAnimationEnd(drawable)
+                                    callback.onAnimationEnd()
+                                    it.unregisterAnimationCallback(this)
+                                }
+                            })
+                        }
+                    }
+                    it.start()
+                }
                 is AnimatedVectorDrawableCompat -> it.start()
                 else -> throw Exception("IncompatibilityException: first or last stateDrawable not AnimatedVectorDrawable/AnimatedVectorDrawableCompat")
             }
@@ -72,7 +100,7 @@ class AnimatedIcon @JvmOverloads constructor(
     private fun newStateEvent(newState: Drawable) {
         currentStateDrawable = newState
         this.background = currentStateDrawable
-        listener?.onStateChanged(if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE)
+        listenerClick?.onStateChanged(if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE)
     }
 
     fun setCurrentStateWithAnim(nextState: State) =
@@ -82,10 +110,17 @@ class AnimatedIcon @JvmOverloads constructor(
                 } else if (isReAnimNeed) performAnim(this)
             }
 
-    interface OnAnimatedIconClickListener {
+    interface OnAnimatedClickIconListener {
         fun onClickEvent(newState: State)
 
         fun onStateChanged(newState: State)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    interface OnAnimatedIconCallback {
+        fun onAnimationStart()
+
+        fun onAnimationEnd()
     }
 
     enum class State(val stateId: Int) {
