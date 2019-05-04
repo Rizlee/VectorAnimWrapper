@@ -1,6 +1,6 @@
 [![Platform](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Download](https://api.bintray.com/packages/rizlee/vector-anim-wrapper/vector-anim-wrapper/images/download.svg?version=1.0.4)](https://bintray.com/rizlee/vector-anim-wrapper/vector-anim-wrapper/1.0.4/link)
+[![Download](https://api.bintray.com/packages/rizlee/vector-anim-wrapper/vector-anim-wrapper/images/download.svg?version=1.0.5)](https://bintray.com/rizlee/vector-anim-wrapper/vector-anim-wrapper/1.0.5/link)
 
 # Usage
 #### Gradle
@@ -20,8 +20,12 @@ implementation "com.rizlee.wrapper:vector-anim-wrapper:$last_version"
 
 #### Kotlin
 ```kotlin
-just implement AnimatedIcon.OnAnimatedIconClickListener
+just implement:
+AnimatedIcon.OnAnimatedIconClickListener
+AnimatedIcon.OnAnimatedIconCallback // only for api >= 23
+ 
 then animatedIcon.listener = this
+animatedIcon.animCallback = this // only for api >= 23
         
 override fun onClickEvent(newState: AnimatedIcon.State) {
         when (newState) {
@@ -30,11 +34,19 @@ override fun onClickEvent(newState: AnimatedIcon.State) {
         }
     }
 
-    override fun onStateChanged(newState: AnimatedIcon.State) {
+override fun onStateChanged(newState: AnimatedIcon.State) {
         when (newState) {
             AnimatedIcon.State.FIRST_STATE -> Log.i(TAG, "First state")
             AnimatedIcon.State.LAST_STATE -> Log.i(TAG, "Last state")
         }
+    }
+    
+override fun onAnimationStart() {
+        Log.i(TAG, "onAnimationStart")
+    }
+
+override fun onAnimationEnd() {
+        Log.i(TAG, "onAnimationEnd")
     }
     
 animatedIcon.setCurrentStateWithAnim(AnimatedIcon.State.FIRST_STATE)
