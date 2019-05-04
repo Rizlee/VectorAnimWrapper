@@ -18,17 +18,17 @@ class MainActivity : AppCompatActivity(), AnimatedIcon.OnAnimatedIconClickListen
 
     }
 
-    override fun onClickEvent(newStateId: Int) {
-        when (newStateId) {
-            AnimatedIcon.State.FIRST_STATE.stateId -> Log.i(TAG, "First state")
-            AnimatedIcon.State.LAST_STATE.stateId -> Log.i(TAG, "Last state")
+    override fun onClickEvent(newState: AnimatedIcon.State) {
+        when (newState) {
+            AnimatedIcon.State.FIRST_STATE -> Log.i(TAG, "First state")
+            AnimatedIcon.State.LAST_STATE -> Log.i(TAG, "Last state")
         }
     }
 
-    override fun onStateChanged(newStateId: Int) {
-        when (newStateId) {
-            AnimatedIcon.State.FIRST_STATE.stateId -> Log.i(TAG, "First state")
-            AnimatedIcon.State.LAST_STATE.stateId -> Log.i(TAG, "Last state")
+    override fun onStateChanged(newState: AnimatedIcon.State) {
+        when (newState) {
+            AnimatedIcon.State.FIRST_STATE -> Log.i(TAG, "First state")
+            AnimatedIcon.State.LAST_STATE -> Log.i(TAG, "Last state")
         }
     }
 }

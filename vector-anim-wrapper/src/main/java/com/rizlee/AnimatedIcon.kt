@@ -17,7 +17,9 @@ class AnimatedIcon @JvmOverloads constructor(
     private lateinit var firstStateIcon: Drawable
     private lateinit var lastStateIcon: Drawable
 
-    private lateinit var currentState: Drawable
+    private lateinit var currentStateDrawable: Drawable
+    val currentState: State
+        get() = if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE
 
     private lateinit var transitions: Map<Drawable, Drawable>
 
@@ -32,7 +34,7 @@ class AnimatedIcon @JvmOverloads constructor(
             context.obtainStyledAttributes(it, R.styleable.AnimatedIcon).apply {
                 getDrawable(R.styleable.AnimatedIcon_first_state)?.let { drawable ->
                     firstStateIcon = drawable
-                    currentState = firstStateIcon
+                    currentStateDrawable = firstStateIcon
                 } ?: throw Exception("NoStateFoundException: firstState")
 
                 getDrawable(R.styleable.AnimatedIcon_last_state)?.let { drawable ->
@@ -51,8 +53,8 @@ class AnimatedIcon @JvmOverloads constructor(
     }
 
     private fun onClickEvent() {
-        performAnim(if (isReAnimNeed) currentState else transitions[currentState])
-        listener?.onClickEvent(if (currentState == firstStateIcon) State.FIRST_STATE.stateId else State.LAST_STATE.stateId)
+        performAnim(if (isReAnimNeed) currentStateDrawable else transitions[currentStateDrawable])
+        listener?.onClickEvent(if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE)
     }
 
     private fun performAnim(newState: Drawable?) {
@@ -68,36 +70,25 @@ class AnimatedIcon @JvmOverloads constructor(
     }
 
     private fun newStateEvent(newState: Drawable) {
-        currentState = newState
-        this.background = currentState
-        listener?.onStateChanged(if (currentState == firstStateIcon) State.FIRST_STATE.stateId else State.LAST_STATE.stateId)
+        currentStateDrawable = newState
+        this.background = currentStateDrawable
+        listener?.onStateChanged(if (currentStateDrawable == firstStateIcon) State.FIRST_STATE else State.LAST_STATE)
     }
 
-    fun setCurrentStateWithAnim(nextStateId: Int) =
-            (if (nextStateId == State.FIRST_STATE.stateId) firstStateIcon else lastStateIcon).apply {
-                if (this != currentState) {
+    fun setCurrentStateWithAnim(nextState: State) =
+            (if (nextState.stateId == State.FIRST_STATE.stateId) firstStateIcon else lastStateIcon).apply {
+                if (this != currentStateDrawable) {
                     performAnim(this)
                 } else if (isReAnimNeed) performAnim(this)
             }
 
-    fun getCurrentState() = if (currentState == firstStateIcon) State.FIRST_STATE else State.LAST_STATE
-
-    //todo need to fix problem when setCurrentStateWithAnim -> setCurrentStateWithoutAnim (without onClick)
-    /*fun setCurrentStateWithoutAnim(nextStateId: Int) =
-            (if (nextStateId == firstStateId) firstStateIcon else lastStateIcon ).apply {
-                if (this != currentState) {
-                    newStateEvent(this)
-                    isReAnimNeed = true
-                }
-            }*/
-
     interface OnAnimatedIconClickListener {
-        fun onClickEvent(newStateId: Int)
+        fun onClickEvent(newState: State)
 
-        fun onStateChanged(newStateId: Int)
+        fun onStateChanged(newState: State)
     }
 
-    enum class State(val stateId: Int){
+    enum class State(val stateId: Int) {
         FIRST_STATE(0),
         LAST_STATE(1)
     }
