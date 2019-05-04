@@ -1,6 +1,6 @@
 [![Platform](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Download](https://api.bintray.com/packages/rizlee/vector-anim-wrapper/vector-anim-wrapper/images/download.svg?version=1.0.3)](https://bintray.com/rizlee/vector-anim-wrapper/vector-anim-wrapper/1.0.3/link)
+[![Download](https://api.bintray.com/packages/rizlee/vector-anim-wrapper/vector-anim-wrapper/images/download.svg?version=1.0.4)](https://bintray.com/rizlee/vector-anim-wrapper/vector-anim-wrapper/1.0.4/link)
 
 # Usage
 #### Gradle
@@ -23,19 +23,22 @@ implementation "com.rizlee.wrapper:vector-anim-wrapper:$last_version"
 just implement AnimatedIcon.OnAnimatedIconClickListener
 then animatedIcon.listener = this
         
-override fun onClickEvent(newStateId: Int) {
-        when (newStateId) {
-            AnimatedIcon.State.FIRST_STATE.stateId -> Log.i(TAG, "First state")
-            AnimatedIcon.State.LAST_STATE.stateId -> Log.i(TAG, "Last state")
+override fun onClickEvent(newState: AnimatedIcon.State) {
+        when (newState) {
+            AnimatedIcon.State.FIRST_STATE -> Log.i(TAG, "First state")
+            AnimatedIcon.State.LAST_STATE -> Log.i(TAG, "Last state")
         }
     }
 
-    override fun onStateChanged(newStateId: Int) {
-        when (newStateId) {
-            AnimatedIcon.State.FIRST_STATE.stateId -> Log.i(TAG, "First state")
-            AnimatedIcon.State.LAST_STATE.stateId -> Log.i(TAG, "Last state")
+    override fun onStateChanged(newState: AnimatedIcon.State) {
+        when (newState) {
+            AnimatedIcon.State.FIRST_STATE -> Log.i(TAG, "First state")
+            AnimatedIcon.State.LAST_STATE -> Log.i(TAG, "Last state")
         }
     }
+    
+animatedIcon.setCurrentStateWithAnim(AnimatedIcon.State.FIRST_STATE)
+animatedIcon.currentState // get the current state
 ```
 
 #### Animated drawables you can make with the help of [this](https://shapeshifter.design/)
