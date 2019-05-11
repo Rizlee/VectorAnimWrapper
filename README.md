@@ -53,4 +53,6 @@ animatedIcon.setCurrentStateWithAnim(AnimatedIcon.State.FIRST_STATE)
 animatedIcon.currentState // get the current state
 ```
 
-#### Animated drawables you can make with the help of [this](https://shapeshifter.design/)
+#### Animated drawables you can make with the help of [this](https://shapeshifter.design/), In sample you can find examples of vector drawables
+
+##### This project is using AndroidX artifacts make sure you have migrated your project to androidX
